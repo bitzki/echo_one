@@ -1,0 +1,35 @@
+-----------------------------------------------------------------
+Welcome to "echo_one" the php echo command handler
+
+This php file should be include towards the start of any project 
+where you desire to have echoing handled by it.
+
+-----------------------------------------------------------------
+Ex. of script include() placement.
+
+//----------------
+// php/some_file.php
+//----------------
+//--Error reporting
+//--
+	error_reporting(0);												//--Turn off all error reporting
+//	error_reporting(-1);											//--Report all PHP errors
+//--------
+//--Echoing func
+//--
+	include_once("$php/echo_one.php");								//--dyn, var. lgth. arg. list, echoing script
+//--
+-----------------------------------------------------------------
+Ex. of echo_one call.
+
+	echo_one(__FILE__,__FUNCTION__,__LINE__, compact('var1', 'var2', ''));
+	
+Note: no "$" is used in the variable name string placements.
+
+Feels real good to just have to click on a variable name in your code 
+and copy/paste into the echo_one parameters list. Layout handled, done.
+
+-----------------------------------------------------------------
+
+
+
