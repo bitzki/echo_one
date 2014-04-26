@@ -22,7 +22,7 @@ Ex. of script include() placement.
 -----------------------------------------------------------------
 Ex. of echo_one call.
 
-	echo_one(__FILE__,__FUNCTION__,__LINE__, compact('var1', 'var2', ''));
+	echo_one(__FILE__,__FUNCTION__,__LINE__, compact('var1', 'var2', ''), 'const1', 'const2');
 	
 Note: no "$" is used in the variable name string placements.
 
