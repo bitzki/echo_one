@@ -2,7 +2,7 @@
 //------------------------------------------------
 //--AUTHOR: Smilingdog Productions
 //--Creation date: 8/1/13
-//--Copyright © 2006-2014 Smilingdog Productions
+//--Copyright Â© 2006-2014 Smilingdog Productions
 //---------------------------------------
 // $php/util/echo_one.php
 //----------------
@@ -14,7 +14,8 @@ defined('V') || define('V', DIRECTORY_SEPARATOR);						//--Set os dependent dir.
 //--------
 //--Format ~ (var. precedence, any combination)
 //--
-//--Ex. call: echo_one(__FILE__,__FUNCTION__,__LINE__, compact('var1', 'var2', ''));
+//--Ex. call: echo_one(__FILE__,__FUNCTION__,__LINE__, compact('var1', 'var2', ''), 'const1' 'const2');
+//--
 //----------------
 function bN_($_file_){
 //----------------
@@ -67,7 +68,7 @@ global $short;
 //--
 if (!$short && !Echos) return;											//--Set echo_one() on/off ~ (true/false)
 //--
-	$mCs= 0;															//--"magic const" index
+	$mCs= 3;															//--magic constants index
 //--
 	$spc= '';															//--space char holder
 	$fnStr= '';															//--file name holder
@@ -85,29 +86,34 @@ if (!$short && !Echos) return;											//--Set echo_one() on/off ~ (true/false
 if (!empty($arg_list[0])){
 //--
 for ($aL= 0; $aL < $funcArgs; $aL++){
-	switch (typeCheck($arg_list[$aL])){
-		case 'array' : 
-			if ($funcArgs >= 1 && $funcArgs <= 4){
-				$mCs= $aL;												//--$mCs: total magic const arg's
-				$compacts= count($arg_list[$mCs]);						//--compact func's arg's count
-				}
-			break;
-		case 'integer' : 
-			$lnNum= $arg_list[$aL];										//--line number arg
-			break;
-		case 'string' : 
-			if (strpos($arg_list[$aL], V) !== false){					//--string arg w/ dir separator
-				$frag= explode(V, $arg_list[$aL]);						//--frag: file path parts array
-				$frags= count($frag);
+//--------
+//--File ~ func @ line:
 //--
-				$fnStr= (bN_($frag[($frags -1)]).' ~ ');				//--call file name str func bN()
-				}
-			else
-				$funcStr= $arg_list[$aL];								//--call file name str func bN()
-			break;
-		default : 
-		}//end of switch
-	}//end of for loop
+	if ($aL <= $mCs){													//--string arg w/ dir separator
+		switch (typeCheck($arg_list[$aL])){
+			case "array" : 
+				if ($funcArgs >= 1 && $aL <= 4){
+					$mCs= $aL;											//--$mCs: magic constants arg's
+					$compacts= count($arg_list[$mCs]);					//--compact func's arg's count
+					}
+				break;
+			case "integer" : 
+				$lnNum= $arg_list[$aL];									//--line number arg
+				break;
+			case "string" : 
+				if (strpos($arg_list[$aL], V) !== false){				//--string arg w/ dir separator
+					$frag= explode(V, $arg_list[$aL]);					//--frag: file path parts array
+					$frags= count($frag);
+//--
+					$fnStr= (bN_($frag[($frags -1)]).' ~ ');			//--call file name str func bN()
+					}
+				else
+					$funcStr= $arg_list[$aL];							//--call file name str func bN()
+				break;
+			default : 
+			}//end of switch
+		}//end of if $aL <= $mCs
+	}//end of for funcArgs loop
 //--
 	}//end of if !empty($arg_list[0])
 else
@@ -138,20 +144,43 @@ if (!empty($lnNum)){
 ';
 	}
 //--------
-//--Name/values
+//--Load all name/values
 //--
-if ($funcArgs > $mCs && $compacts > 0){									//--$arg_list[#] (array) ~ length
+for ($aL= 0; $aL < $funcArgs; $aL++){									//--top numeric index ~ $key
+//--------
+//--Compact var values
 //--
-	foreach ($arg_list[$mCs] as $key=> $value){							//--numeric index ~ $key
+	if ($aL === $mCs && $funcArgs > $mCs && $compacts > 0){				//--$arg_list[#] (array) ~ length
+		foreach ($arg_list[$mCs] as $key=> $value){						//--numeric index ~ $key
 //--
-		$arg_name[$key]= '$'.$key;
-		$arg_value[$key]= $value;
+			$arg_name[$key]= '$'.$key;
+			$arg_value[$key]= $value;
+//--------
+//--Load echo str
 //--
-		$echo_str.= $arg_name[$key].'= '.$arg_value[$key].' 
+			$echo_str.= $arg_name[$key].'= '.$arg_value[$key].' 
 ';
-		}//end of foreach loop
+			}//end of foreach arg_list loop
+		}//end of if $aL === $mCs && $funcArgs > $mCs && $compacts > 0: total magic const arg's
+//--------
+//--Additional name/values
 //--
-	}//end of if func_num_args() > $mCs: total magic const arg's
+	if ($aL >= $compacts && $funcArgs > $compacts){						//--$arg_list[#] (array) ~ length
+//--------
+//--Constant var values
+//--
+		if (defined($arg_list[$aL])){
+			$arg_name[$aL]= $arg_list[$aL];
+			$arg_value[$aL]= constant($arg_list[$aL]);
+//--------
+//--Load echo str
+//--
+			$echo_str.= $arg_name[$aL].'= '.$arg_value[$aL].' 
+';
+			}//end of if defined($arg_list[$aL])
+		}//end of if $funcArgs > $compacts
+//--
+	}//end of for all funcArgs loop
 //--
 	$echo_str.= '
 ';
@@ -167,7 +196,7 @@ if ($funcArgs > $mCs && $compacts > 0){									//--$arg_list[#] (array) ~ lengt
 	"To Do List"
 ---------------------	
 1).	Add proc. for array values.
-2).	Add proc. for calling func's arg. values.
+--------------------------------
 */
 /*
 */
