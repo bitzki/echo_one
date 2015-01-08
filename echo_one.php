@@ -6,7 +6,7 @@
 //---------------------------------------
 // $php/util/echo_one.php
 //----------------
-	$short= false;														//--$short (circuit) "Echos" constant
+	$short= false;								//--$short (circuit) "Echos" constant
 //--
 defined('Echos') || define('Echos', $bool= false);				//--Set echo_one() on/off ~ (true/false)
 //--
@@ -43,7 +43,7 @@ global $retType;
 //--
 	$varType= gettype($typeVar);
 //--
-switch ($varType){														//--Separate & index headers
+switch ($varType){									//--Separate & index headers
 	case 'array'	: 
 	case 'boolean'	: $retType= $varType; break;
 	case 'double'	: 
@@ -68,20 +68,20 @@ global $short;
 //--
 if (!$short && !Echos) return;							//--Set echo_one() on/off ~ (true/false)
 //--
-	$mCs= 3;															//--magic constants index
+	$mCs= 3;									//--magic constants index
 //--
-	$spc= '';															//--space char holder
-	$fnStr= '';															//--file name holder
-	$funcStr= '';														//--func name holder
-	$lnNum= 0;															//--line number holder
+	$spc= '';									//--space char holder
+	$fnStr= '';									//--file name holder
+	$funcStr= '';									//--func name holder
+	$lnNum= 0;									//--line number holder
 //--
-	$echo_str= '';														//--echoing string
+	$echo_str= '';									//--echoing string
 //--------
 //--All cases
 //--
-	$arg_list= func_get_args();											//--var. lgth. arg. list ~ array
+	$arg_list= func_get_args();							//--var. lgth. arg. list ~ array
 //--
-	$funcArgs= func_num_args();											//--this func's arg's count
+	$funcArgs= func_num_args();							//--this func's arg's count
 //--
 if (!empty($arg_list[0])){
 //--
@@ -89,16 +89,16 @@ for ($aL= 0; $aL < $funcArgs; $aL++){
 //--------
 //--File ~ func @ line:
 //--
-	if ($aL <= $mCs){													//--string arg w/ dir separator
+	if ($aL <= $mCs){								//--string arg w/ dir separator
 		switch (typeCheck($arg_list[$aL])){
 			case "array" : 
 				if ($funcArgs >= 1 && $aL <= 4){
-					$mCs= $aL;											//--$mCs: magic constants arg's
+					$mCs= $aL;					//--$mCs: magic constants arg's
 					$compacts= count($arg_list[$mCs]);		//--compact func's arg's count
 					}
 				break;
 			case "integer" : 
-				$lnNum= $arg_list[$aL];									//--line number arg
+				$lnNum= $arg_list[$aL];					//--line number arg
 				break;
 			case "string" : 
 				if (strpos($arg_list[$aL], V) !== false){		//--string arg w/ dir separator
@@ -108,7 +108,7 @@ for ($aL= 0; $aL < $funcArgs; $aL++){
 					$fnStr= (bN_($frag[($frags -1)]).' ~ ');	//--call file name str func bN()
 					}
 				else
-					$funcStr= $arg_list[$aL];							//--call file name str func bN()
+					$funcStr= $arg_list[$aL];			//--call file name str func bN()
 				break;
 			default : 
 			}//end of switch
