@@ -8,9 +8,9 @@
 //----------------
 	$short= false;														//--$short (circuit) "Echos" constant
 //--
-defined('Echos') || define('Echos', $bool= false);						//--Set echo_one() on/off ~ (true/false)
+defined('Echos') || define('Echos', $bool= false);				//--Set echo_one() on/off ~ (true/false)
 //--
-defined('V') || define('V', DIRECTORY_SEPARATOR);						//--Set os dependent dir. separator
+defined('V') || define('V', DIRECTORY_SEPARATOR);				//--Set os dependent dir. separator
 //--------
 //--Format ~ (var. precedence, any combination)
 //--
@@ -49,13 +49,13 @@ switch ($varType){														//--Separate & index headers
 	case 'double'	: 
 	case 'float'	: $retType= 'double'; break;
 	case 'integer'	: $retType= $varType; break;
-	case 'NULL'		: $retType= 'null'; break;
+	case 'NULL'	: $retType= 'null'; break;
 	case 'numeric'	: 
 	case 'object'	: 
 	case 'resource'	: 
 	case 'scalar'	: 
 	case 'string'	: $retType= $varType; break;
-	default 		: $retType= 'unknown type';
+	default 	: $retType= 'unknown type';
 	}//end of switch
 //--
 return $retType;
@@ -66,7 +66,7 @@ function echo_one(){
 //----------------
 global $short;
 //--
-if (!$short && !Echos) return;											//--Set echo_one() on/off ~ (true/false)
+if (!$short && !Echos) return;							//--Set echo_one() on/off ~ (true/false)
 //--
 	$mCs= 3;															//--magic constants index
 //--
@@ -94,18 +94,18 @@ for ($aL= 0; $aL < $funcArgs; $aL++){
 			case "array" : 
 				if ($funcArgs >= 1 && $aL <= 4){
 					$mCs= $aL;											//--$mCs: magic constants arg's
-					$compacts= count($arg_list[$mCs]);					//--compact func's arg's count
+					$compacts= count($arg_list[$mCs]);		//--compact func's arg's count
 					}
 				break;
 			case "integer" : 
 				$lnNum= $arg_list[$aL];									//--line number arg
 				break;
 			case "string" : 
-				if (strpos($arg_list[$aL], V) !== false){				//--string arg w/ dir separator
-					$frag= explode(V, $arg_list[$aL]);					//--frag: file path parts array
+				if (strpos($arg_list[$aL], V) !== false){		//--string arg w/ dir separator
+					$frag= explode(V, $arg_list[$aL]);		//--frag: file path parts array
 					$frags= count($frag);
 //--
-					$fnStr= (bN_($frag[($frags -1)]).' ~ ');			//--call file name str func bN()
+					$fnStr= (bN_($frag[($frags -1)]).' ~ ');	//--call file name str func bN()
 					}
 				else
 					$funcStr= $arg_list[$aL];							//--call file name str func bN()
@@ -123,7 +123,7 @@ else
 //--
 if (!empty($fnStr)){
 	$echo_str.= 'In '.$fnStr;
-	$spc= ((strrpos($echo_str, '~') +2) == strlen($echo_str)) ? '' : ' ';	//--space/no space
+	$spc= ((strrpos($echo_str, '~') +2) == strlen($echo_str)) ? '' : ' ';		//--space/no space
 	$echo_str.= (!empty($lnNum) || !empty($funcStr)) ? $spc : '
 ';
 	}
@@ -146,12 +146,12 @@ if (!empty($lnNum)){
 //--------
 //--Load all name/values
 //--
-for ($aL= 0; $aL < $funcArgs; $aL++){									//--top numeric index ~ $key
+for ($aL= 0; $aL < $funcArgs; $aL++){							//--top numeric index ~ $key
 //--------
 //--Compact var values
 //--
 	if ($aL === $mCs && $funcArgs > $mCs && $compacts > 0){				//--$arg_list[#] (array) ~ length
-		foreach ($arg_list[$mCs] as $key=> $value){						//--numeric index ~ $key
+		foreach ($arg_list[$mCs] as $key=> $value){				//--numeric index ~ $key
 //--
 			$arg_name[$key]= '$'.$key;
 			$arg_value[$key]= $value;
@@ -165,7 +165,7 @@ for ($aL= 0; $aL < $funcArgs; $aL++){									//--top numeric index ~ $key
 //--------
 //--Additional name/values
 //--
-	if ($aL >= $compacts && $funcArgs > $compacts){						//--$arg_list[#] (array) ~ length
+	if ($aL >= $compacts && $funcArgs > $compacts){					//--$arg_list[#] (array) ~ length
 //--------
 //--Constant var values
 //--
